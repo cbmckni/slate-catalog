@@ -1,6 +1,8 @@
 Deploy a Nextflow-API Server to Kubernetes Using SLATE
 
-This guide assumes you have access to a K8s cluster, and a valid PVC on that cluster.
+======
+
+This guide assumes you have SLATE, access to a K8s cluster, and a valid PVC on that cluster.
 
 #### 1. Configure Nextflow-API Server
 
@@ -45,7 +47,7 @@ Now the server is configured and ready for deployment!
 
 Navigate to `slate-catalog/incubator/nextflow-api/`
 
-Deploy using `helm install nf nextflow-api`
+Deploy using `slate app install --group my-group --cluster my-cluster --local nextflow-api`
 
 #### 3. Use Nextflow Server
 
@@ -63,6 +65,4 @@ You may create and submit workflows from there.
 
 #### 4. Delete deployment
 
-If you'd like to destroy, use `helm delete nf`.
 
-All done!
