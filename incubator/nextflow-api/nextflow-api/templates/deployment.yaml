@@ -21,17 +21,28 @@ spec:
         release: {{ .Release.Name }}
         instance: {{ .Values.Instance }}
     spec:
-      serviceAccountName: nextflow-api-auth-svc
+      serviceAccountName: default
       containers:
       - name: nextflow-server
         image: cbmckni/nextflow-api
         env:
         - name: NEXTFLOW_K8S
           value: "true"
+        {{ if .Values.Remote.Enabled }}
+        - name: PVC_NAME
+          value: {{ .Values.Remote.PVC }}
+        {{ else }}
+        - name: PVC_NAME
+          value: {{ .Values.LocalPVC.Name }}
+        {{ end }}
         command:
         - /bin/bash
         - -c
+        {{ if .Values.Remote.Enabled }}
         - cd /opt/nextflow-api; cp -R /etc/.kube /root; kubectl config --kubeconfig=/root/.kube/config use-context {{ .Values.Remote.Context }}; kubectl get pods; python3 server.py
+        {{ else }}
+        - cd /opt/nextflow-api; python3 server.py
+        {{ end }}
         resources:
           requests:
             cpu: {{ .Values.Resources.CPU }}
@@ -39,15 +50,21 @@ spec:
         volumeMounts:
         - name: vol-1
           mountPath: /workspace
+        {{ if .Values.Remote.Enabled }}
         - name: conf
           mountPath: "/etc/.kube"
+        {{ end }}
         ports:
         - containerPort: 8080
       volumes:
-      - name: vol-1
-        persistentVolumeClaim:
-          claimName: {{ .Values.PersistentVolumeClaim.Name }}
+      {{ if .Values.Remote.Enabled }}
       - name: conf
         secret:
           secretName: kubeconfig
           defaultMode: 256
+      {{ end }}
+      {{ if .Values.LocalPVC.Enabled }}
+      - name: vol-1
+        persistentVolumeClaim:
+          claimName: {{ .Values.LocalPVC.Name }}
+      {{ end }}
