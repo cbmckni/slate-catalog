@@ -5,17 +5,19 @@
 Instance: ""
 
 # PVC
-PersistentVolumeClaim:
+LocalPVC:
   # If true, use PVC on local cluster.
   # Otherwise, PVC on remote cluster will be used
   # (temp, future will be dynamically configurable)
   Enabled: true
-  Name: scidas-cole-helm-pvc-new
-  Size: 20Gi
-  StorageClass: nfs
+  Name: nextflow-api-local
 
 # Remote cluster settings(temp, future will be dynamically configurable)
 Remote:
+  # If true, use PVC/compute of remote cluster.
+  # Otherwise, PVC/compute of local cluster will be used.
+  # (temp, future will be dynamically configurable)
+  Enabled: true
   Context: nautilus
   PVC: deepgtex-prp
   
@@ -32,7 +34,7 @@ Ingress:
   # If true, use ingress control.
   # Otherwise, generic LoadBalancer networking will be used, 
   # and the other settings in this section will be ignored.
-  Enabled: true
+  Enabled: false
   # The subdomain to associate with this service.
   # This will result in a FQDN like {subdomain}.{cluster}.slateci.net
   Subdomain: nextflow
