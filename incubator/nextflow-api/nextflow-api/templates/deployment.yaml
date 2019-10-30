@@ -48,8 +48,10 @@ spec:
             cpu: {{ .Values.Resources.CPU }}
             memory: {{ .Values.Resources.Memory }}
         volumeMounts:
+        {{ if .Values.LocalPVC.Enabled }}
         - name: vol-1
           mountPath: /workspace
+        {{ end }}
         {{ if .Values.Remote.Enabled }}
         - name: conf
           mountPath: "/etc/.kube"

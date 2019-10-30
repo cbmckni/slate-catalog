@@ -1,6 +1,8 @@
 Deploy a Nextflow-API Server to Kubernetes Using SLATE
 
-This guide assumes you have access to a K8s cluster, and a valid PVC on that cluster.
+======
+
+This guide assumes you have SLATE, access to a K8s cluster, and a valid PVC on that cluster.
 
 #### 1. Configure Nextflow-API Server
 
@@ -45,24 +47,22 @@ Now the server is configured and ready for deployment!
 
 Navigate to `slate-catalog/incubator/nextflow-api/`
 
-Deploy using `helm install nf nextflow-api`
+Deploy using `slate app install --group my-group --cluster my-cluster --local nextflow-api`
 
 #### 3. Use Nextflow Server
 
-If you are using an Ingress, navigate to the host you specified.
+Get the instance ID with `slate instance list`
 
-##### LoadBalancer(default)
+Get all info, including the externally accessible IP or URL with `slate instance info <instance ID>`
 
-Run `kubectl get svc` to get the service that is exposing your server to the internet.
-
-Record the **External IP** for the service `nf-nextflow-api`.
-
-Open an internet browser, then navigate to `<EXT_IP>:8080` 
-
-You may create and submit workflows from there.
+Navigate to the IP/URL with an internet browser. Then start using Nextflow! 
 
 #### 4. Delete deployment
 
-If you'd like to destroy, use `helm delete nf`.
+Get the instance ID with `slate instance list`
+
+Then delete with `slate instance delete <instance_id>`
 
 All done!
+
+
