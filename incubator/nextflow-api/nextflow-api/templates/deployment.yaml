@@ -47,8 +47,8 @@ spec:
           requests:
             cpu: {{ .Values.Resources.CPU }}
             memory: {{ .Values.Resources.Memory }}
-        {{ if .Values.LocalPVC.Enabled }}
         volumeMounts:
+        {{ if .Values.LocalPVC.Enabled }}
         - name: vol-1
           mountPath: /workspace
         {{ end }}
