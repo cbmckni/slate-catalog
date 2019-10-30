@@ -51,18 +51,18 @@ Deploy using `slate app install --group my-group --cluster my-cluster --local ne
 
 #### 3. Use Nextflow Server
 
-If you are using an Ingress, navigate to the host you specified.
+Get the instance ID with `slate instance list`
 
-##### LoadBalancer(default)
+Get all info, including the externally accessible IP or URL with `slate instance info <instance ID>`
 
-Run `kubectl get svc` to get the service that is exposing your server to the internet.
-
-Record the **External IP** for the service `nf-nextflow-api`.
-
-Open an internet browser, then navigate to `<EXT_IP>:8080` 
-
-You may create and submit workflows from there.
+Navigate to the IP/URL with an internet browser. Then start using Nextflow! 
 
 #### 4. Delete deployment
+
+Get the instance ID with `slate instance list`
+
+Then delete with `slate instance delete <instance_id>`
+
+All done!
 
 
